@@ -9,7 +9,7 @@ ENV STORM_USER=storm \
 
 # Add a user and make dirs
 RUN set -x \
-    && adduser -D "$STORM_USER" \
+    && adduser "$STORM_USER" \
     && mkdir -p "$STORM_CONF_DIR" "$STORM_DATA_DIR" "$STORM_LOG_DIR" \
     && chown -R "$STORM_USER:$STORM_USER" "$STORM_CONF_DIR" "$STORM_DATA_DIR" "$STORM_LOG_DIR"
 
