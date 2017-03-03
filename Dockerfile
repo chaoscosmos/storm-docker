@@ -1,10 +1,6 @@
-FROM openjdk:8-jre-alpine
+FROM chaoscosmos/rhel7le:1.1
 
 # Install required packages
-RUN apk add --no-cache \
-    bash \
-    python \
-    su-exec
 
 ENV STORM_USER=storm \
     STORM_CONF_DIR=/conf \
@@ -21,10 +17,7 @@ ARG GPG_KEY=ACEFE18DD2322E1E84587A148DE03962E80B8FFD
 ARG DISTRO_NAME=apache-storm-1.0.3
 
 # Download Apache Storm, verify its PGP signature, untar and clean up
-RUN set -x \
-    && apk add --no-cache --virtual .build-deps \
-        gnupg \
-    && wget -q "http://www.apache.org/dist/storm/$DISTRO_NAME/$DISTRO_NAME.tar.gz" \
+RUN wget -q "http://www.apache.org/dist/storm/$DISTRO_NAME/$DISTRO_NAME.tar.gz" \
     && wget -q "http://www.apache.org/dist/storm/$DISTRO_NAME/$DISTRO_NAME.tar.gz.asc" \
     && export GNUPGHOME="$(mktemp -d)" \
     && gpg --keyserver ha.pool.sks-keyservers.net --recv-key "$GPG_KEY" \
@@ -32,7 +25,6 @@ RUN set -x \
     && tar -xzf "$DISTRO_NAME.tar.gz" \
     && chown -R "$STORM_USER:$STORM_USER" "$DISTRO_NAME" \
     && rm -r "$GNUPGHOME" "$DISTRO_NAME.tar.gz" "$DISTRO_NAME.tar.gz.asc" \
-    && apk del .build-deps
 
 WORKDIR $DISTRO_NAME
 
