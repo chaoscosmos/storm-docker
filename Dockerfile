@@ -1,6 +1,7 @@
 FROM chaoscosmos/rhel7le:1.1
 
 # Install required packages
+RUN yum install wget -y
 
 ENV STORM_USER=storm \
     STORM_CONF_DIR=/conf \
