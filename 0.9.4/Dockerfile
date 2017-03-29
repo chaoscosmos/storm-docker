@@ -32,4 +32,5 @@ WORKDIR $DISTRO_NAME
 ENV PATH $PATH:/$DISTRO_NAME/bin
 
 COPY docker-entrypoint.sh /
+RUN chmod +x /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
